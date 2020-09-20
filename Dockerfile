@@ -5,8 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: hjung <hjung@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2020/09/17 22:06:14 by hjung             #+#    #+#              #
-#    Updated: 2020/09/18 14:30:45 by hjung            ###   ########.fr        #
+#    Created: 2020/09/21 00:00:04 by hjung             #+#    #+#              #
+#    Updated: 2020/09/21 00:00:06 by hjung            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,10 +24,11 @@ RUN mv localhost.dev.crt /etc/ssl/certs
 RUN chmod 600 etc/ssl/certs/localhost.dev.crt etc/ssl/private/localhost.dev.key
 
 # nginx setting
-COPY ./src/default /etc/nginx/sites-available/default
+# 이 파일은 계속 수정되니까 마지막에 복사
+#COPY ./src/default /etc/nginx/sites-available/default
 
 # php-fpm install
-RUN apt-get -y install php-fpm
+RUN apt-get install -y php-fpm
 
 # MySQL(Maria DB) install
 RUN apt-get -y install mariadb-server php-mysql
@@ -41,4 +42,16 @@ RUN mv phpmyadmin /var/www/html/
 
 # phpMyAdmin setting
 RUN cp -rp var/www/html/phpmyadmin/config.sample.inc.php var/www/html/phpmyadmin/config.inc.php 
-COPY ./srcs/config.inc.php var/www/html/phpmyadmin/config.inc.php
+
+# WordPress install
+RUN wget https://wordpress.org/latest.tar.gz
+RUN tar -xvf latest.tar.gz
+RUN mv wordpress/ var/www/html/
+RUN	chown -R www-data:www-data /var/www/html/wordpress
+
+# copy src files
+COPY ./src/default /etc/nginx/sites-available/default
+COPY ./src/init_container.sh ./
+COPY ./src/config.inc.php var/www/html/phpmyadmin/config.inc.php
+
+CMD bash init_container.sh
