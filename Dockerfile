@@ -6,7 +6,7 @@
 #    By: hjung <hjung@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/21 00:00:04 by hjung             #+#    #+#              #
-#    Updated: 2020/09/21 00:00:06 by hjung            ###   ########.fr        #
+#    Updated: 2020/09/21 00:12:45 by hjung            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,9 +49,13 @@ RUN tar -xvf latest.tar.gz
 RUN mv wordpress/ var/www/html/
 RUN	chown -R www-data:www-data /var/www/html/wordpress
 
+# WordPress settings
+RUN cp var/www/html/wordpress/wp-config-sample.php var/www/html/wordpress/wp-config.php 
+
 # copy src files
 COPY ./src/default /etc/nginx/sites-available/default
 COPY ./src/init_container.sh ./
 COPY ./src/config.inc.php var/www/html/phpmyadmin/config.inc.php
+COPY ./src/wp-config.php var/www/html/wordpress/wp-config.php
 
 CMD bash init_container.sh
