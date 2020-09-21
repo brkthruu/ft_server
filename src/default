@@ -19,9 +19,13 @@
 # Default server configuration
 #
 server {
-	listen 80 default_server;
-	listen [::]:80 default_server;
+	listen 80;
+	listen [::]:80;
 
+	return 301 https://$host$request_uri;
+}
+
+server {
 	# SSL configuration
 	#
 	listen 443 ssl default_server;
@@ -51,6 +55,7 @@ server {
 	location / {
 		# First attempt to serve request as file, then
 		# as directory, then fall back to displaying a 404.
+		# autoindex on;
 		try_files $uri $uri/ =404;
 	}
 
