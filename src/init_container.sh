@@ -9,4 +9,4 @@ echo "FLUSH PRIVILEGES;" | mysql -u root --skip-password
 service php7.3-fpm start
 service php7.3-fpm status
 service nginx start
-sleep infinity
+bash

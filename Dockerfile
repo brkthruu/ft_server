@@ -6,7 +6,7 @@
 #    By: hjung <hjung@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/21 00:00:04 by hjung             #+#    #+#              #
-#    Updated: 2020/09/21 00:12:45 by hjung            ###   ########.fr        #
+#    Updated: 2020/09/22 20:24:05 by hjung            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,3 +59,6 @@ COPY ./src/config.inc.php var/www/html/phpmyadmin/config.inc.php
 COPY ./src/wp-config.php var/www/html/wordpress/wp-config.php
 
 CMD bash init_container.sh
+
+EXPOSE 80
+EXPOSE 443
