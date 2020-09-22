@@ -6,7 +6,7 @@
 #    By: hjung <hjung@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/21 00:00:04 by hjung             #+#    #+#              #
-#    Updated: 2020/09/22 20:24:05 by hjung            ###   ########.fr        #
+#    Updated: 2020/09/23 00:50:45 by hjung            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,10 +22,6 @@ RUN openssl req -newkey rsa:4096 -days 365 -nodes -x509 -subj "/C=KR/ST=Seoul/L=
 RUN mv localhost.dev.key /etc/ssl/private
 RUN mv localhost.dev.crt /etc/ssl/certs
 RUN chmod 600 etc/ssl/certs/localhost.dev.crt etc/ssl/private/localhost.dev.key
-
-# nginx setting
-# 이 파일은 계속 수정되니까 마지막에 복사
-#COPY ./src/default /etc/nginx/sites-available/default
 
 # php-fpm install
 RUN apt-get install -y php-fpm
@@ -53,10 +49,10 @@ RUN	chown -R www-data:www-data /var/www/html/wordpress
 RUN cp var/www/html/wordpress/wp-config-sample.php var/www/html/wordpress/wp-config.php 
 
 # copy src files
-COPY ./src/default /etc/nginx/sites-available/default
-COPY ./src/init_container.sh ./
-COPY ./src/config.inc.php var/www/html/phpmyadmin/config.inc.php
-COPY ./src/wp-config.php var/www/html/wordpress/wp-config.php
+COPY ./srcs/default /etc/nginx/sites-available/default
+COPY ./srcs/init_container.sh ./
+COPY ./srcs/config.inc.php var/www/html/phpmyadmin/config.inc.php
+COPY ./srcs/wp-config.php var/www/html/wordpress/wp-config.php
 
 CMD bash init_container.sh
 
